@@ -4,6 +4,7 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono';
 import { discordAuth } from '@hono/oauth-providers/discord';
 import { Redis } from '@upstash/redis';
+import { request } from 'undici';
 
 // Types for Discord API responses
 interface DiscordUser {
@@ -278,24 +279,25 @@ app.get('/auth/discord', async (c) => {
 
     // Fetch the message from Discord API using the bot token
     const discordApiUrl = `https://discord.com/api/v10/channels/${channelId}/messages/${messageId}`;
-    const discordResponse = await fetch(discordApiUrl, {
+    const discordResponse = await request(discordApiUrl, {
+      method: 'GET',
       headers: {
         'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
         'Content-Type': 'application/json',
       },
     });
 
-    if (!discordResponse.ok) {
-      const errorText = await discordResponse.text();
-      console.error(`Discord API error: ${discordResponse.status} - ${errorText}`);
+    if (discordResponse.statusCode !== 200) {
+      const errorText = await discordResponse.body.text();
+      console.error(`Discord API error: ${discordResponse.statusCode} - ${errorText}`);
       return c.json({ 
         error: 'Failed to fetch message from Discord',
         details: errorText,
-        status: discordResponse.status
+        status: discordResponse.statusCode
       }, 500);
     }
 
-    const message = await discordResponse.json() as DiscordMessage;
+    const message = await discordResponse.body.json() as DiscordMessage;
 
     // Check if the message has attachments
     if (!message.attachments || message.attachments.length === 0) {
