@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^1.19.5
-        version: 1.19.5(hono@4.9.12)
+        version: 1.19.5(hono@4.10.2)
       '@hono/oauth-providers':
         specifier: ^0.7.1
-        version: 0.7.1(hono@4.9.12)
+        version: 0.7.1(hono@4.10.2)
       '@upstash/redis':
         specifier: ^1.34.3
         version: 1.35.6
@@ -21,8 +21,8 @@ importers:
         specifier: ^17.2.3
         version: 17.2.3
       hono:
-        specifier: ^4.6.14
-        version: 4.9.12
+        specifier: ^4.10.2
+        version: 4.10.2
       undici:
         specifier: ^7.16.0
         version: 7.16.0
@@ -230,8 +230,8 @@ packages:
   get-tsconfig@4.12.0:
     resolution: {integrity: sha512-LScr2aNr2FbjAjZh2C6X6BxRx1/x+aTDExct/xyq2XKbYOiG5c0aK7pMsSuyc0brz3ibr/lbQiHD9jzt4lccJw==}
 
-  hono@4.9.12:
-    resolution: {integrity: sha512-SrTC0YxqPwnN7yKa8gg/giLyQ2pILCKoideIHbYbFQlWZjYt68D2A4Ae1hehO/aDQ6RmTcpqOV/O2yBtMzx/VQ==}
+  hono@4.10.2:
+    resolution: {integrity: sha512-p6fyzl+mQo6uhESLxbF5WlBOAJMDh36PljwlKtP5V1v09NxlqGru3ShK+4wKhSuhuYf8qxMmrivHOa/M7q0sMg==}
     engines: {node: '>=16.9.0'}
 
   resolve-pkg-maps@1.0.0:
@@ -337,13 +337,13 @@ snapshots:
   '@esbuild/win32-x64@0.25.11':
     optional: true
 
-  '@hono/node-server@1.19.5(hono@4.9.12)':
+  '@hono/node-server@1.19.5(hono@4.10.2)':
     dependencies:
-      hono: 4.9.12
+      hono: 4.10.2
 
-  '@hono/oauth-providers@0.7.1(hono@4.9.12)':
+  '@hono/oauth-providers@0.7.1(hono@4.10.2)':
     dependencies:
-      hono: 4.9.12
+      hono: 4.10.2
 
   '@types/node@22.18.10':
     dependencies:
@@ -391,7 +391,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  hono@4.9.12: {}
+  hono@4.10.2: {}
 
   resolve-pkg-maps@1.0.0: {}
 
