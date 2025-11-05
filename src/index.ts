@@ -383,6 +383,39 @@ app.get('/auth/discord', async (c) => {
   }
 });
 
+// Cron job endpoint to keep the database active
+app.get('/api/cron/keepalive', async (c) => {
+  try {
+    // Verify the request is from Vercel Cron (optional but recommended)
+    const authHeader = c.req.header('authorization');
+    if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return c.json({ error: 'Unauthorized' }, 401);
+    }
+
+    // Perform a simple Redis operation to keep the database active
+    const pingResult = await redis.ping();
+    const timestamp = new Date().toISOString();
+    
+    // Store a keepalive timestamp
+    await redis.set('keepalive:last', timestamp, { ex: 86400 * 7 }); // 7 days expiry
+    
+    console.log(`Keepalive cron executed at ${timestamp}`);
+    
+    return c.json({
+      success: true,
+      timestamp,
+      ping: pingResult,
+      message: 'Database keepalive successful'
+    });
+  } catch (error) {
+    console.error('Keepalive cron error:', error);
+    return c.json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
+  }
+});
+
 // Start the server
 const port = parseInt(process.env.PORT || '3000');
 console.log(`Server is running on http://localhost:${port}`);
